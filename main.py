@@ -5,7 +5,15 @@ import sys
 # Require a file with regular expressions in it passed as a paramater
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="File of regexp to run over the input", type=str)
-parser.add_argument("--emp", "-e", action=("store_true"), help="Bold the match")
+parser.add_argument("-e", "--emp", action=("store_true"), help="Bold the match")
+parser.add_argument("-p", "--print-match", action=("store_true"), help="Print just the match")
+
+# not implemented!
+# parser.add_argument("--context", "-c", type=int, help="Print CONTEXT number of lines")
+
+# not implemented!
+# parser.add_argument("-rt", "--replace-text", type=str, help="Replace non-matched text with REPLACE_TEXT")
+
 args = parser.parse_args()
 
 # a list to hold the regular expression objects that are in the file
@@ -35,9 +43,19 @@ for line in sys.stdin:
         match = r.search(line)
         if not match is None:
             # print the line with highlight or not
-            if args.emp:
-                # \033[1m causes the match to be bolded on the terminal
-                # \033[0m causes the rest of the text to not be bolded
-                print line.replace(match.group(0),"\033[1m" + match.group(0) + "\033[0m").replace("\n","")
+            if args.print_match:
+                # print just the match
+                if args.emp:
+                    # \033[1m causes the match to be bolded on the terminal
+                    # \033[0m causes the rest of the text to not be bolded
+                    print ("\033[1m" + match.group(0) + "\033[0m").replace("\n","")
+                else:
+                    print match.group(0)
             else:
-                print line.replace("\n","")
+                # print the entire line
+                if args.emp:
+                    # \033[1m causes the match to be bolded on the terminal
+                    # \033[0m causes the rest of the text to not be bolded
+                    print line.replace(match.group(0),"\033[1m" + match.group(0) + "\033[0m").replace("\n","")
+                else:
+                    print line.replace("\n","")
