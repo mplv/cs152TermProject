@@ -66,7 +66,11 @@ def is_open(row, col, maze):
     :return: True if the maze at the position is passable
     """
     if 0 <= row < len(maze) and 0 <= col < len(maze[row]):
-        return maze[row][col] != '#'
+        walls = "#$M&?!,`"
+        for c in walls:
+            if maze[row][col] == c:
+                return False
+        return True
     else: return False
 
 #Maze, Player location, and goal location are set.
@@ -89,27 +93,6 @@ def euclidian(player, goal):
     dx = player[0] - goal[0]
     dy = player[1] - goal[1]
     return math.sqrt(dx*dx + dy*dy)
-
-def preprocessMaze(goal, maze):
-    r = goal[0]
-    c = goal[1]
-    global rowMin, rowMax, colMin, colMax
-    while r > 0 and is_open(r, c, maze):
-        r-= 1
-    rowMin = r
-    r = goal[0]
-    while r < len(maze) and is_open(r, c, maze):
-        r += 1
-    rowMax = r
-    r = goal[0]
-
-    while c > 0 and is_open(r, c, maze):
-        c-= 1
-    colMin = c
-    c = goal[1]
-    while c < len(maze[r]) and is_open(r, c, maze):
-        c += 1
-    colMax = c
 
 def a_star(start, dest, maze):
     """
@@ -178,8 +161,9 @@ def print_path_without_history(path, maze):
             print "Step " + str(step) + ":"
         maze[node[0]][node[1]] = '@'
         print_maze(m)
-        maze[node[0]][node[1]] = '.'
+        maze[node[0]][node[1]] = 'X'
         step += 1
+        time.sleep(0.10)
         print
     print "Problem Solved!"
 
@@ -201,5 +185,5 @@ def print_path(path, maze):
     print "Problem Solved!"
 
 path = a_star(playerLoc, goalLoc, m)
-print_path(path, m)
-#print_path_without_history(path, m)
+#print_path(path, m)
+print_path_without_history(path, m)
