@@ -169,9 +169,9 @@ def print_path_without_history(path, maze):
     step = 0
     for node in path:
         #Delete this comment if on windows
-        os.system('cls')
+        #os.system('cls')
         #Delete this comment if on linux or os x!
-        # os.system('clear')
+        os.system('clear')
         if step == 0:
             print "Initial:"
         else:
@@ -180,6 +180,7 @@ def print_path_without_history(path, maze):
         print_maze(m)
         maze[node[0]][node[1]] = '.'
         step += 1
+        time.sleep(0.10)
         print
     print "Problem Solved!"
 
@@ -201,5 +202,5 @@ def print_path(path, maze):
     print "Problem Solved!"
 
 path = a_star(playerLoc, goalLoc, m)
-print_path(path, m)
-#print_path_without_history(path, m)
+#print_path(path, m)
+print_path_without_history(path, m)
