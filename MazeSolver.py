@@ -152,9 +152,9 @@ def print_path_without_history(path, maze):
     step = 0
     for node in path:
         #Delete this comment if on windows
-        os.system('cls')
+        #os.system('cls')
         #Delete this comment if on linux or os x!
-        # os.system('clear')
+        os.system('clear')
         if step == 0:
             print "Initial:"
         else:
